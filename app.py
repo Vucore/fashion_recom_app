@@ -56,23 +56,32 @@ def extract_features_from_images(image_path, model):
   return norm_result
 
 upload_file = st.file_uploader('Upload Image')
-
+       
 if upload_file is not None:
-    with open(os.path.join('upload', upload_file.name), 'wb') as f:
-        f.write(upload_file.getbuffer())
-    st.subheader('Uploaded Image')
-    st.image(upload_file)
-    input_image_features = extract_features_from_images(upload_file, model)
-    distance, indices = neighbors.kneighbors([input_image_features])
-    st.subheader('Recommend Images')
-    col1, col2, col3, col4, col5 = st.columns(5)
-    with col1:
-       st.image(filenames[indices[0][1]])
-    with col2:
-       st.image(filenames[indices[0][2]])
-    with col3:
-       st.image(filenames[indices[0][3]])
-    with col4:
-       st.image(filenames[indices[0][4]])
-    with col5:
-       st.image(filenames[indices[0][5]])
+        upload_dir = "upload"
+        if not os.path.exists(upload_dir):
+            os.makedirs(upload_dir)
+        file_path = os.path.join(upload_dir, upload_file.name)
+        try:
+            with open(file_path, 'wb') as f:
+                f.write(upload_file.getbuffer())
+            st.subheader('Uploaded Image')
+            st.image(upload_file)
+            
+            input_image_features = extract_features_from_images(file_path, model)
+            distance, indices = neighbors.kneighbors([input_image_features])
+            
+            st.subheader('Recommended Images')
+            col1, col2, col3, col4, col5 = st.columns(5)
+            with col1:
+                st.image(filenames[indices[0][1]])
+            with col2:
+                st.image(filenames[indices[0][2]])
+            with col3:
+                st.image(filenames[indices[0][3]])
+            with col4:
+                st.image(filenames[indices[0][4]])
+            with col5:
+                st.image(filenames[indices[0][5]])
+        except Exception as e:
+            st.error(f"Error processing uploaded file: {str(e)}")
