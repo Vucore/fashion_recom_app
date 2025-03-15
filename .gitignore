@@ -9,7 +9,6 @@
 
 # Bỏ qua thư mục dataset
 myntradataset/
-images/
 upload/
 
 # Bỏ qua cache & file hệ thống
