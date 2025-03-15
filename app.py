@@ -8,11 +8,21 @@ from tensorflow.keras.layers import GlobalMaxPool2D
 from sklearn.neighbors import NearestNeighbors
 import os
 import streamlit as st
-
+import gdown
 st.header('Fashion Recommendation System')
 
-filenames = pkl.load(open('filenames.pkl', 'rb'))
-image_feature_data = pkl.load(open('image_features.pkl', 'rb'))
+filenames_path = "filenames.pkl"
+image_feature_data_path = "image_features.pkl"
+
+if not os.path.exists(filenames_path):
+    st.info("Downloading filenames.pkl...")
+    gdown.download("https://drive.google.com/uc?id=1bWoBSU5Hq1wNQUYuP_BS565P4C3Rr7Bp", filenames_path, quiet=False)
+if not os.path.exists(image_feature_data_path):
+    st.info("Downloading image_features.pkl...")
+    gdown.download("https://drive.google.com/uc?id=1iq7xKxz_LUZDIT0wCix0fIr4KmrjgjK1", image_feature_data_path, quiet=False)  
+
+filenames = pkl.load(open(filenames_path, 'rb'))
+image_feature_data = pkl.load(open(image_feature_data_path, 'rb'))
 
 model = ResNet50(weights='imagenet', include_top=False, input_shape=(224, 224, 3))
 model.trainable = False
