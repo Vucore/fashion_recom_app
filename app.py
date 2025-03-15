@@ -15,10 +15,8 @@ filenames_path = "filenames.pkl"
 image_feature_data_path = "image_features.pkl"
 
 if not os.path.exists(filenames_path):
-    st.info("Downloading filenames.pkl...")
     gdown.download("https://drive.google.com/uc?id=1bWoBSU5Hq1wNQUYuP_BS565P4C3Rr7Bp", filenames_path, quiet=False)
 if not os.path.exists(image_feature_data_path):
-    st.info("Downloading image_features.pkl...")
     gdown.download("https://drive.google.com/uc?id=1iq7xKxz_LUZDIT0wCix0fIr4KmrjgjK1", image_feature_data_path, quiet=False)  
 
 @st.cache_data
