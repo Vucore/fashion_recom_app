@@ -21,8 +21,21 @@ if not os.path.exists(image_feature_data_path):
     st.info("Downloading image_features.pkl...")
     gdown.download("https://drive.google.com/uc?id=1iq7xKxz_LUZDIT0wCix0fIr4KmrjgjK1", image_feature_data_path, quiet=False)  
 
-filenames = pkl.load(open(filenames_path, 'rb'))
-image_feature_data = pkl.load(open(image_feature_data_path, 'rb'))
+@st.cache_data
+def load_pkl_file(file_path):
+    with open(file_path, 'rb') as f:
+        return pkl.load(f)
+    
+if os.path.exists(filenames_path) and os.path.exists(image_feature_data_path):
+    try:
+        filenames = load_pkl_file(filenames_path)
+        image_feature_data = load_pkl_file(image_feature_data_path)
+    except Exception as e:
+        st.error(f"Error loading .pkl files: {str(e)}")
+        st.stop()
+    
+# filenames = pkl.load(open(filenames_path, 'rb'))
+# image_feature_data = pkl.load(open(image_feature_data_path, 'rb'))
 
 model = ResNet50(weights='imagenet', include_top=False, input_shape=(224, 224, 3))
 model.trainable = False
