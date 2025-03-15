@@ -1,0 +1,18 @@
+# Bỏ qua file lớn
+*.csv
+*.pkl
+*.h5
+*.npy
+*.zip
+*.tar.gz
+*.rar
+
+# Bỏ qua thư mục dataset
+myntradataset/
+images/
+upload/
+
+# Bỏ qua cache & file hệ thống
+__pycache__/
+.DS_Store
+.env
